@@ -2,7 +2,7 @@
 
 This is a simple application for serving RSS/Atom/JSON feeds for mods on the [Baldur's Gate 3 Mod site](https://baldursgate3.game/mods).
 
-## Usage
+## Running
 
 ```bash
 bg3mods-feed [options]
@@ -27,6 +27,8 @@ An example can be found in the [config.yaml](contrib/etc/config.yaml) file.
 
 The feed will be available at `/feed` on the listen address.
 For example, if the listen address is `:8080`, the feed will be available at `http://localhost:8080/feed`.
+
+## Querying
 
 Defaults provided via configuration can be overridden per request using query arguments.
 The following query arguments are supported:
