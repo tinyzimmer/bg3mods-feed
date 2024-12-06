@@ -1,0 +1,7 @@
+listen: :8080
+tags: [Classes]
+platform: windows
+max_feed_items: 100
+sort: trending
+fetch_interval: 5m
+format: atom
