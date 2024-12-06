@@ -46,8 +46,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Failed to load configuration:", err)
 	}
-	log.Printf("Loaded configuration: %+v", conf)
-
 	fetcher := mods.NewFetcher(conf.APIURL)
 	generator := feed.NewGenerator(fetcher, feed.GeneratorOptions{
 		MaxItems:      conf.MaxFeedItems,
@@ -67,6 +65,7 @@ func main() {
 	log.Println("    Version:", Version)
 	log.Println("    Commit:", Commit)
 	log.Println("    Build Date:", Date)
+	conf.Log()
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil {

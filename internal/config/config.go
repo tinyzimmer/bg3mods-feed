@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"strings"
 	"sync"
 	"time"
@@ -71,6 +72,18 @@ type Configuration struct {
 	// Format is the format to render the feed in. Valid options are
 	// "rss", "atom", and "json". Defaults to "atom".
 	Format FeedFormat `mapstructure:"format"`
+}
+
+func (c Configuration) Log() {
+	log.Println("Configuration:")
+	log.Println("    Listen:", c.Listen)
+	log.Println("    API URL:", c.APIURL)
+	log.Println("    Tags:", strings.Join(c.Tags, ", "))
+	log.Println("    Platform:", c.Platform)
+	log.Println("    Max Feed Items:", c.MaxFeedItems)
+	log.Println("    Sort:", c.Sort)
+	log.Println("    Fetch Interval:", c.FetchInterval)
+	log.Println("    Format:", c.Format)
 }
 
 var viperOnce sync.Once

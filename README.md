@@ -54,4 +54,35 @@ The following predefined values are supported:
 
 ## Installation
 
-_TODO_
+### Windows
+
+You can download the latest release from the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases) section.
+If someone wants to help create a package for Windows, please let me know.
+
+### macOS
+
+A Homebrew formula is available:
+
+```bash
+brew tap tinyzimmer/bg3mods-feed
+brew install bg3mods-feed
+```
+
+You can also download the latest release from the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases) section.
+
+### Linux
+
+You can find a package for your distribution in the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases) section.
+If a package is not available for your distribution, you can use one the `tar.gz` archives.
+
+### From Source
+
+```bash
+# With Go
+go install github.com/tinyzimmer/bg3mods-feed@latest
+
+# From source
+git clone https://github.com/tinyzimmer/bg3mods-feed.git
+cd bg3mods-feed
+go install
+```
