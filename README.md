@@ -68,6 +68,12 @@ brew tap tinyzimmer/bg3mods-feed
 brew install bg3mods-feed
 ```
 
+To start the service, run:
+
+```bash
+brew services start bg3mods-feed
+```
+
 You can also download the latest release from the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases/latest) section.
 
 ### Linux
