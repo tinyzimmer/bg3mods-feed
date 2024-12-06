@@ -56,7 +56,7 @@ The following predefined values are supported:
 
 ### Windows
 
-You can download the latest release from the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases) section.
+You can download the latest release from the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases/latest) section.
 If someone wants to help create a package for Windows, please let me know.
 
 ### macOS
@@ -68,11 +68,11 @@ brew tap tinyzimmer/bg3mods-feed
 brew install bg3mods-feed
 ```
 
-You can also download the latest release from the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases) section.
+You can also download the latest release from the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases/latest) section.
 
 ### Linux
 
-You can find a package for your distribution in the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases) section.
+You can find a package for your distribution in the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases/latest) section.
 If a package is not available for your distribution, you can use one the `tar.gz` archives.
 
 ### From Source
