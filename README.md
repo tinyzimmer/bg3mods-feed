@@ -81,6 +81,13 @@ You can also download the latest release from the [releases](https://github.com/
 You can find a package for your distribution in the [releases](https://github.com/tinyzimmer/bg3mods-feed/releases/latest) section.
 If a package is not available for your distribution, you can use one the `tar.gz` archives.
 
+The configuration file should be placed in `/etc/bg3mods-feed/config.yaml`.
+When installing via a package you can start the service with:
+
+```bash
+systemctl start bg3mods-feed
+```
+
 ### From Source
 
 ```bash
