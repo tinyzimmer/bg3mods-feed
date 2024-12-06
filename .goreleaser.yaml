@@ -1,8 +1,3 @@
-# This is an example .goreleaser.yml file with some sensible defaults.
-# Make sure to check the documentation at https://goreleaser.com
-
-# The lines below are called `modelines`. See `:help modeline`
-# Feel free to remove those if you don't want/need to use them.
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 # vim: set ts=2 sw=2 tw=0 fo=cnqoj
 
@@ -10,7 +5,6 @@ version: 2
 
 before:
   hooks:
-    # You may remove this if you don't use go modules.
     - go mod tidy
 
 builds:
@@ -19,8 +13,9 @@ builds:
     ldflags:
       - -s
       - -w
-      - -X=main.Version={{.Version}}
-      - -X=main.Commit={{.Commit}}
+      - -X=main.Version={{ .Version }}
+      - -X=main.Commit={{ .Commit }}
+      - -X=main.Date={{ .Date }}
     goos:
       - linux
       - windows
@@ -28,7 +23,6 @@ builds:
 
 archives:
   - format: tar.gz
-    # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
@@ -36,7 +30,6 @@ archives:
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
-    # use zip for windows archives
     format_overrides:
       - goos: windows
         format: zip
@@ -53,27 +46,27 @@ release:
     owner: tinyzimmer
     name: bg3mods-feed
 
-brews:
-  - homepage: https://github.com/tinyzimmer/bg3mods-feed
-    description: "A feed generator of mods for Baldur's Gate 3"
-    license: MIT
-    url_template: "https://github.com/tinyzimmer/bg3mods-feed/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-    skip_upload: auto
-    repository:
-      owner: tinyzimmer
-      name: homebrew-bg3mods-feed
-      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
-    commit_author:
-      name: Avi Zimmerman
-      email: avi.zimmerman@gmail.com
-    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
-    install: |
-      bin.install "bg3mods-feed"
-    test: |
-      system "#{bin}/bg3mods-feed --version"
-    service: |
-      run "#{bin}/bg3mods-feed"
-      keep_alive true
-      sockets "tcp://127.0.0.1:8080"
-    caveats: |
-      You can start the service with `brew services start bg3mods-feed`
+# brews:
+#   - homepage: https://github.com/tinyzimmer/bg3mods-feed
+#     description: "A feed generator of mods for Baldur's Gate 3"
+#     license: MIT
+#     url_template: "https://github.com/tinyzimmer/bg3mods-feed/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+#     skip_upload: auto
+#     repository:
+#       owner: tinyzimmer
+#       name: homebrew-bg3mods-feed
+#       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+#     commit_author:
+#       name: Avi Zimmerman
+#       email: avi.zimmerman@gmail.com
+#     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+#     install: |
+#       bin.install "bg3mods-feed"
+#     test: |
+#       system "#{bin}/bg3mods-feed --version"
+#     service: |
+#       run "#{bin}/bg3mods-feed"
+#       keep_alive true
+#       sockets "tcp://127.0.0.1:8080"
+#     caveats: |
+#       You can start the service with `brew services start bg3mods-feed`

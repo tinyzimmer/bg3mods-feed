@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -18,17 +20,25 @@ import (
 var (
 	Version = "dev"
 	Commit  = "none"
+	Date    = "unknown"
 )
 
 func main() {
-	flags := pflag.NewFlagSet("bg3mods-feed", pflag.ExitOnError)
+	flags := pflag.NewFlagSet("bg3mods-feed", pflag.ContinueOnError)
 	configFile := flags.String("config", "", "Path to the configuration file (YAML, JSON, TOML, or HCL)")
 	version := flags.Bool("version", false, "Print the version and exit")
 	config.BindPFlags(flags)
-	flags.Parse(os.Args[1:])
+	err := flags.Parse(os.Args[1:])
+	if err != nil {
+		if errors.Is(err, pflag.ErrHelp) {
+			os.Exit(0)
+		}
+		log.Fatal("Failed to parse flags:", err)
+	}
 
 	if *version {
-		log.Printf("bg3mods-feed %s (%s)", Version, Commit)
+		fmt.Printf("bg3mods-feed %s (%s)\n", Version, Commit)
+		fmt.Printf("Build date: %s\n", Date)
 		os.Exit(0)
 	}
 
@@ -60,7 +70,7 @@ func main() {
 	}()
 
 	sigc := make(chan os.Signal, 1)
-	signal.Notify(sigc, os.Interrupt, os.Kill, syscall.SIGTERM)
+	signal.Notify(sigc, os.Interrupt, syscall.SIGTERM)
 	<-sigc
 
 	log.Println("Shutting down server...")

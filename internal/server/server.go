@@ -34,7 +34,7 @@ func NewServer(opts ServerOptions) *Server {
 		} else {
 			w.Header().Set("Content-Type", "application/xml")
 		}
-		w.Header().Set("X-Feed-Generation-Time", fmt.Sprintf("%s", time.Since(start).String()))
+		w.Header().Set("X-Feed-Generation-Time", time.Since(start).String())
 		fmt.Fprint(w, string(data.Content))
 	})
 	return &Server{

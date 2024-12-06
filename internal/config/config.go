@@ -118,5 +118,7 @@ func BindPFlags(flags *pflag.FlagSet) {
 	flags.String("sort", DefaultSort, "The field to sort the feed by")
 	flags.Duration("fetch-interval", DefaultFetchInterval, "The interval to fetch mods at")
 	flags.String("format", string(DefaultFormat), "The format to render the feed in (rss, atom, json)")
-	GetViper().BindPFlags(flags)
+	if err := GetViper().BindPFlags(flags); err != nil {
+		panic(err)
+	}
 }

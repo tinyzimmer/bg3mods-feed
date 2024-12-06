@@ -27,3 +27,7 @@ An example can be found in the `config.example.yaml` file.
 
 The feed will be available at `/feed` on the listen address.
 For example, if the listen address is `:8080`, the feed will be available at `http://localhost:8080/feed`.
+
+## Installation
+
+_TODO_
