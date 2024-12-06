@@ -63,6 +63,11 @@ func main() {
 		Addr:      conf.Listen,
 	})
 
+	log.Println("Starting BG3 Mods Feed server")
+	log.Println("    Version:", Version)
+	log.Println("    Commit:", Commit)
+	log.Println("    Build Date:", Date)
+
 	go func() {
 		if err := server.ListenAndServe(); err != nil {
 			log.Fatal("Failed to start server:", err)
