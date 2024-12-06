@@ -85,23 +85,16 @@ brews:
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     install: |
       bin.install "bg3mods-feed"
+    post_install: |
+      etc.install "contrib/etc/config.yaml" => "bg3mods-feed.conf.yaml"
     test: |
       system "#{bin}/bg3mods-feed --version"
     service: |
-      run "#{bin}/bg3mods-feed"
+      run [bin/"bg3mods-feed", "--config", etc/"bg3mods-feed.conf.yaml"]
       keep_alive true
-      environment_variables
-        BG3MODS_LISTEN: ":#{ENV['BG3MODS_LISTEN_PORT'] || '8080'}"
-        BG3MODS_TAGS: "#{ENV['BG3MODS_TAGS'] || ''}"
-        BG3MODS_PLATFORM: "#{ENV['BG3MODS_PLATFORM'] || ''}"
-        BG3MODS_MAX_FEED_ITEMS: "#{ENV['BG3MODS_MAX_FEED_ITEMS'] || '100'}"
-        BG3MODS_SORT: "#{ENV['BG3MODS_SORT'] || 'recent'}"
-        BG3MODS_FETCH_INTERVAL: "#{ENV['BG3MODS_FETCH_INTERVAL'] || '5m'}"
-        BG3MODS_FORMAT: "#{ENV['BG3MODS_FORMAT'] || 'atom'}"
-      sockets "tcp://127.0.0.1:#{ENV['BG3MODS_LISTEN_PORT'] || '8080'}"
     caveats: |
       You can start the service with `brew services start bg3mods-feed`.
-      The service will be available at http://localhost:#{ENV['BG3MODS_LISTEN_PORT'] || '8080'}/feed.
+      The service will be available at http://localhost:8080/feed unless otherwise configured in #{etc}/bg3mods-feed.conf.yaml.
 
 nfpms:
   - id: nfpm
