@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -97,6 +98,7 @@ func GetViper() *viper.Viper {
 	viperOnce.Do(func() {
 		v := viper.New()
 		v.SetEnvPrefix("BG3MODS")
+		v.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
 		v.AutomaticEnv()
 		v.SetDefault("listen", DefaultListen)
 		v.SetDefault("api-url", DefaultAPIURL)

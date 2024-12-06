@@ -46,27 +46,36 @@ release:
     owner: tinyzimmer
     name: bg3mods-feed
 
-# brews:
-#   - homepage: https://github.com/tinyzimmer/bg3mods-feed
-#     description: "A feed generator of mods for Baldur's Gate 3"
-#     license: MIT
-#     url_template: "https://github.com/tinyzimmer/bg3mods-feed/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-#     skip_upload: auto
-#     repository:
-#       owner: tinyzimmer
-#       name: homebrew-bg3mods-feed
-#       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
-#     commit_author:
-#       name: Avi Zimmerman
-#       email: avi.zimmerman@gmail.com
-#     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
-#     install: |
-#       bin.install "bg3mods-feed"
-#     test: |
-#       system "#{bin}/bg3mods-feed --version"
-#     service: |
-#       run "#{bin}/bg3mods-feed"
-#       keep_alive true
-#       sockets "tcp://127.0.0.1:8080"
-#     caveats: |
-#       You can start the service with `brew services start bg3mods-feed`
+brews:
+  - homepage: https://github.com/tinyzimmer/bg3mods-feed
+    description: "A feed generator of mods for Baldur's Gate 3"
+    license: MIT
+    url_template: "https://github.com/tinyzimmer/bg3mods-feed/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    skip_upload: auto
+    repository:
+      owner: tinyzimmer
+      name: homebrew-bg3mods-feed
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    commit_author:
+      name: Avi Zimmerman
+      email: avi.zimmerman@gmail.com
+    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+    install: |
+      bin.install "bg3mods-feed"
+    test: |
+      system "#{bin}/bg3mods-feed --version"
+    service: |
+      run "#{bin}/bg3mods-feed"
+      keep_alive true
+      environment_variables
+        BG3MODS_LISTEN: ":#{ENV['BG3MODS_LISTEN_PORT'] || '8080'}"
+        BG3MODS_TAGS: "#{ENV['BG3MODS_TAGS'] || ''}"
+        BG3MODS_PLATFORM: "#{ENV['BG3MODS_PLATFORM'] || ''}"
+        BG3MODS_MAX_FEED_ITEMS: "#{ENV['BG3MODS_MAX_FEED_ITEMS'] || '100'}"
+        BG3MODS_SORT: "#{ENV['BG3MODS_SORT'] || 'recent'}"
+        BG3MODS_FETCH_INTERVAL: "#{ENV['BG3MODS_FETCH_INTERVAL'] || '5m'}"
+        BG3MODS_FORMAT: "#{ENV['BG3MODS_FORMAT'] || 'atom'}"
+      sockets "tcp://127.0.0.1:#{ENV['BG3MODS_LISTEN_PORT'] || '8080'}"
+    caveats: |
+      You can start the service with `brew services start bg3mods-feed`.
+      The service will be available at http://localhost:#{ENV['BG3MODS_LISTEN_PORT'] || '8080'}/feed.
