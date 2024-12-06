@@ -85,16 +85,15 @@ brews:
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     install: |
       bin.install "bg3mods-feed"
-    post_install: |
-      etc.install "contrib/etc/config.yaml" => "bg3mods-feed.conf.yaml"
+      pkgetc.install "contrib/etc/config.yaml" => "bg3mods-feed.conf.yaml" if !File.exist?(pkgetc/"bg3mods-feed.conf.yaml")
     test: |
       system "#{bin}/bg3mods-feed --version"
     service: |
-      run [bin/"bg3mods-feed", "--config", etc/"bg3mods-feed.conf.yaml"]
+      run [bin/"bg3mods-feed", "--config", pkgetc/"bg3mods-feed.conf.yaml"]
       keep_alive true
     caveats: |
       You can start the service with `brew services start bg3mods-feed`.
-      The service will be available at http://localhost:8080/feed unless otherwise configured in #{etc}/bg3mods-feed.conf.yaml.
+      The service will be available at http://localhost:8080/feed unless otherwise configured in #{pkgetc}/bg3mods-feed.conf.yaml.
 
 nfpms:
   - id: nfpm
