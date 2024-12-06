@@ -1,0 +1,12 @@
+[Unit]
+Description=BG3 Mods Feed Server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bg3mods-feed --config /etc/bg3mods-feed/config.yaml
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

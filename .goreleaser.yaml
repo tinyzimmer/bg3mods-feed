@@ -1,6 +1,8 @@
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 # vim: set ts=2 sw=2 tw=0 fo=cnqoj
 
+project_name: bg3mods-feed
+
 version: 2
 
 before:
@@ -8,7 +10,8 @@ before:
     - go mod tidy
 
 builds:
-  - env:
+  - id: bg3mods-feed
+    env:
       - CGO_ENABLED=0
     ldflags:
       - -s
@@ -21,8 +24,20 @@ builds:
       - windows
       - darwin
 
+upx:
+  - ids: [bg3mods-feed]
+    enabled: true
+    compress: best
+    lzma: true
+    goos: [linux]
+
+checksum:
+  name_template: 'checksums.txt'
+
 archives:
-  - format: tar.gz
+  - id: dist
+    builds: [bg3mods-feed]
+    format: tar.gz
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
@@ -33,6 +48,12 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
+    files:
+      - src: LICENSE
+      - src: contrib/etc/config.yaml
+        strip_parent: false
+      - src: contrib/systemd/bg3mods-feed.service
+        strip_parent: false
 
 changelog:
   sort: asc
@@ -47,11 +68,13 @@ release:
     name: bg3mods-feed
 
 brews:
-  - homepage: https://github.com/tinyzimmer/bg3mods-feed
-    description: "A feed generator of mods for Baldur's Gate 3"
+  - ids: [dist]
+    homepage: https://github.com/tinyzimmer/bg3mods-feed
+    description: A feed generator of mods for Baldur's Gate 3
     license: MIT
     url_template: "https://github.com/tinyzimmer/bg3mods-feed/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     skip_upload: auto
+    directory: Formula
     repository:
       owner: tinyzimmer
       name: homebrew-bg3mods-feed
@@ -79,3 +102,27 @@ brews:
     caveats: |
       You can start the service with `brew services start bg3mods-feed`.
       The service will be available at http://localhost:#{ENV['BG3MODS_LISTEN_PORT'] || '8080'}/feed.
+
+nfpms:
+  - id: nfpm
+    maintainer: Avi Zimmerman <avi.zimmerman@gmail.com>
+    description: A feed generator of mods for Baldur's Gate 3
+    homepage: https://github.com/tinyzimmer/bg3mods-feed
+    license: MIT
+    contents:
+      - src: LICENSE
+        dst: /usr/share/licenses/bg3mods-feed/LICENSE
+      - src: contrib/systemd/bg3mods-feed.service
+        dst: /usr/lib/systemd/system/bg3mods-feed.service
+      - src: contrib/etc/config.yaml
+        dst: /etc/bg3mods-feed/config.yaml
+    builds:
+      - bg3mods-feed
+    formats:
+      - deb
+      - rpm
+      - apk
+      - archlinux
+    archlinux:
+      packager: Avi Zimmerman <avi.zimmerman@gmail.com>
+      pkgbase: bg3mods-feed

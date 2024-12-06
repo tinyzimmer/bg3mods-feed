@@ -23,7 +23,7 @@ The following flags are supported:
 ```
 
 The configuration file is optional and follows the same format as the flags.
-An example can be found in the `config.example.yaml` file.
+An example can be found in the [config.yaml](contrib/etc/config.yaml) file.
 
 The feed will be available at `/feed` on the listen address.
 For example, if the listen address is `:8080`, the feed will be available at `http://localhost:8080/feed`.
